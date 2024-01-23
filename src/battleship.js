@@ -4,6 +4,20 @@ class Ship {
     this.timesBeenHit = timesBeenHit;
     this.shipStatus = shipStatus;
   }
+
+  hit() {
+    if (this.shipStatus !== "sunk") {
+      this.timesBeenHit++;
+      return this.isSunk();
+    }
+  }
+
+  isSunk() {
+    if (this.length === this.timesBeenHit) {
+      return (this.shipStatus = "sunk");
+    }
+    return;
+  }
 }
 
 // const battleship = new Ship(4, 0, "afloat");
