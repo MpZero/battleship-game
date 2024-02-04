@@ -1,8 +1,8 @@
 class Ship {
-  constructor(length, timesBeenHit, shipStatus) {
+  constructor(length) {
     this.length = length;
-    this.timesBeenHit = timesBeenHit;
-    this.shipStatus = shipStatus;
+    this.timesBeenHit = 0;
+    this.shipStatus = "afloat";
   }
 
   hit() {
