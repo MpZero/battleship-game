@@ -38,3 +38,20 @@ test("Gameboard handles missed shots correctly", () => {
   expect(board.board[1][0]).toStrictEqual("miss");
   expect(board.board[1][1]).toStrictEqual("miss");
 });
+
+test("Gameboard reports if all the ships sinked", () => {
+  const board = new Gameboard(10);
+  const destroyer = new Ship(3);
+  const carrier = new Ship(4);
+  board.placeShip(destroyer, 0, 0, "horizontal");
+  board.placeShip(carrier, 1, 0, "vertical");
+  board.receiveAttack(0, 0);
+  board.receiveAttack(0, 1);
+  board.receiveAttack(0, 2);
+  board.receiveAttack(1, 0);
+  board.receiveAttack(2, 0);
+  board.receiveAttack(3, 0);
+  board.receiveAttack(4, 0);
+
+  expect(board.sunkShips()).toBeTruthy();
+});

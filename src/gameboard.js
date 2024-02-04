@@ -3,6 +3,7 @@ class Gameboard {
   constructor(size) {
     this.size = size;
     this.board = [];
+    this.ships = [];
     for (let i = 0; i < size; i++) {
       this.board[i] = [];
       for (let j = 0; j < size; j++) {
@@ -21,6 +22,7 @@ class Gameboard {
         this.board[x + i][y] = ship;
       }
     }
+    this.ships.push(ship);
   }
 
   receiveAttack(x, y) {
@@ -28,7 +30,12 @@ class Gameboard {
       this.board[x][y] = "miss";
     } else {
       this.board[x][y].hit();
+      this.sunkShips();
     }
+  }
+
+  sunkShips() {
+    return this.ships.every((ship) => ship.isSunk());
   }
 }
 // const board = new Gameboard(10);
@@ -37,9 +44,6 @@ class Gameboard {
 // board.receiveAttack(0, 0);
 // board.receiveAttack(0, 1);
 // board.receiveAttack(0, 2);
-// board.receiveAttack(0, 3); //doesn't work
-// console.log(board.board[0][2]);
-// console.log(board.board[0][3]); // doesn't work
-// console.log(board.board[0][0]); // doesn't work
+// board.receiveAttack(0, 3);
 
 module.exports = Gameboard;
