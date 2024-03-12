@@ -1,6 +1,5 @@
-const Gameboard = require("./gameboard");
-const Ship = require("./battleship.js");
-class Player {
+import Gameboard from "./gameboard.js";
+export default class Player {
   constructor(player) {
     this.player = player;
     this.gameboard = new Gameboard(10);
@@ -24,18 +23,3 @@ class Player {
     return [x, y];
   }
 }
-
-// const me = new Player("me");
-// const cpu = new Player("cpu");
-// me.cpuPlay();
-// cpu.gameboard.receiveAttack(0, 1);
-// console.log(me.gameboard);
-// console.log(cpu.gameboard);
-// const boat = new Ship(2);
-// const boat2 = new Ship(2);
-// const submarine = new Ship(3);
-// const destroyer = new Ship(3);
-// const carrier = new Ship(4);
-// const me = new Player("Me");
-
-module.exports = Player;

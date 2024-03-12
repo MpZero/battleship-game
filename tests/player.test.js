@@ -1,5 +1,6 @@
-const Player = require("../src/player.js");
-const Ship = require("../src/battleship.js");
+import Player from "../src/modules/player.js";
+import Ship from "../src/modules/ship.js";
+
 describe("Correctly initialize 2 players", () => {
   test("Correctly initialize 2 players", () => {
     const me = new Player("Me");

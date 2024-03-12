@@ -1,5 +1,4 @@
-const Ship = require("./battleship.js");
-class Gameboard {
+export default class Gameboard {
   constructor(size) {
     this.size = size;
     this.board = [];
@@ -38,12 +37,3 @@ class Gameboard {
     return this.ships.every((ship) => ship.isSunk());
   }
 }
-// const board = new Gameboard(10);
-// const destroyer = new Ship(3, 0, "afloat");
-// board.placeShip(destroyer, 0, 0, "horizontal");
-// board.receiveAttack(0, 0);
-// board.receiveAttack(0, 1);
-// board.receiveAttack(0, 2);
-// board.receiveAttack(0, 3);
-
-module.exports = Gameboard;

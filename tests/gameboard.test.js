@@ -1,5 +1,5 @@
-const Gameboard = require("../src/gameboard.js");
-const Ship = require("../src/battleship.js");
+import Ship from "../src/modules/ship.js";
+import Gameboard from "../src/modules/gameboard.js";
 
 test("Gameboard returns the correct number of grids", () => {
   const board = new Gameboard(10);

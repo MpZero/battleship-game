@@ -2,10 +2,15 @@
   "name": "battleship-game",
   "version": "1.0.0",
   "description": "Project: Battleship Game",
-  "main": "battleship.js",
+  "main": "index.js",
+  "type": "module",
+  "jest": {
+    "transform": {}
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "jest": "jest --watch"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "jest": "jest --watch",
+    "predeploy": "npm run build"
   },
   "keywords": [],
   "author": "",
