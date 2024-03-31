@@ -1,4 +1,5 @@
 import Gameboard from "./gameboard.js";
+import Ship from "./ship.js";
 export default class Player {
   constructor(player) {
     this.player = player;
@@ -21,5 +22,10 @@ export default class Player {
 
     this.gameboard.receiveAttack(x, y);
     return [x, y];
+  }
+
+  placeShipManually(shipType, size, x, y, orientation) {
+    const newShip = new Ship(shipType, size);
+    this.gameboard.placeShip(newShip, x, y, orientation);
   }
 }
