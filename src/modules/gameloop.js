@@ -26,11 +26,21 @@ export default function gameloop() {
   }
 
   function play() {
+    const player1Moves = new Set();
+    const player2Moves = new Set();
+
     while (!gameOver) {
       console.log(`Current player: ${currentPlayer.player}`);
 
       // Get player move
       const [x, y] = nextPlayer.cpuPlay();
+
+      // Store moves
+      if (currentPlayer === player1) {
+        player1Moves.add(JSON.stringify([x, y]));
+      } else {
+        player2Moves.add(JSON.stringify([x, y]));
+      }
 
       // Check if the move hits a ship
       if (nextPlayer.gameboard.board[x][y] !== "miss") {
@@ -41,6 +51,8 @@ export default function gameloop() {
           console.log(player1.gameboard.ships);
           console.log(player2.gameboard.ships);
           console.log(`${currentPlayer.player} wins!`);
+          // console.log(player1Moves);
+          // console.log(player2Moves);
           gameOver = true;
         }
       } else {
