@@ -27,9 +27,11 @@ export default class Gameboard {
   receiveAttack(x, y) {
     if (this.board[x][y] === null) {
       this.board[x][y] = "miss";
+      return false;
     } else {
       this.board[x][y].hit();
       this.sunkShips();
+      return true;
     }
   }
 

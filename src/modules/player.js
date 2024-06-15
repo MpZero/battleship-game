@@ -20,7 +20,7 @@ export default class Player {
     // Record the unique move
     this.recordedMoves.add(JSON.stringify(newMove));
 
-    this.gameboard.receiveAttack(x, y);
+    // this.gameboard.receiveAttack(x, y);
     return [x, y];
   }
 

@@ -128,10 +128,20 @@ h2 {
   height: 35px;
   background-color: var(--clr-board);
   border: 1px solid #000;
+  color: #000;
+  font-size: 30px;
 }
 
 .player-grid > *:hover {
   background-color: var(--clr-board-hover);
+}
+
+.hit {
+  background-color: red;
+}
+
+.miss {
+  background-color: skyblue;
 }
 
 /* Footer */

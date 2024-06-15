@@ -1,6 +1,9 @@
+import DOM from "./DOMinteraction.js";
+import { subscribe } from "./DOMinteraction.js";
 import Player from "./player.js";
 
 export default function gameloop() {
+  DOM();
   const player1 = new Player("User");
   const player2 = new Player("CPU");
 
@@ -11,57 +14,112 @@ export default function gameloop() {
   player1.placeShipManually("battleship", 4, 0, 0, "horizontal");
   player1.placeShipManually("sub", 3, 1, 0, "horizontal");
   player1.placeShipManually("destroyer", 3, 2, 0, "horizontal");
-  player1.placeShipManually("boat1", 2, 4, 0, "horizontal");
-  player1.placeShipManually("boat2", 2, 5, 0, "horizontal");
+  player1.placeShipManually("boat1", 2, 3, 0, "horizontal");
+  player1.placeShipManually("boat2", 2, 4, 0, "horizontal");
 
-  player2.placeShipManually("battleship", 4, 0, 0, "horizontal");
-  player2.placeShipManually("destroyer", 3, 1, 0, "horizontal");
-  player2.placeShipManually("sub", 3, 2, 0, "horizontal");
-  player2.placeShipManually("boat1", 2, 3, 0, "horizontal");
+  // player2.placeShipManually("battleship", 4, 0, 0, "horizontal");
+  // player2.placeShipManually("destroyer", 3, 1, 0, "horizontal");
+  // player2.placeShipManually("sub", 3, 2, 0, "horizontal");
+  // player2.placeShipManually("boat1", 2, 3, 0, "horizontal");
   player2.placeShipManually("boat2", 2, 4, 0, "horizontal");
 
-  function switchTurn() {
-    currentPlayer = currentPlayer === player1 ? player2 : player1;
-    nextPlayer = currentPlayer === player1 ? player2 : player1;
-  }
-
   function play() {
-    const player1Moves = new Set();
-    const player2Moves = new Set();
+    const playerGrid1 = document.querySelector("#player-grid1");
+    const playerGrid2 = document.querySelector("#player-grid2");
+    const p1Name = document.querySelector("#p1-name");
+    const p2Name = document.querySelector("#p2-name");
 
-    while (!gameOver) {
-      console.log(`Current player: ${currentPlayer.player}`);
-
-      // Get player move
-      const [x, y] = nextPlayer.cpuPlay();
-
-      // Store moves
-      if (currentPlayer === player1) {
-        player1Moves.add(JSON.stringify([x, y]));
-      } else {
-        player2Moves.add(JSON.stringify([x, y]));
-      }
-
+    function handleCellClicked({ row, col }) {
+      console.log(`Cell clicked: Row ${row}, Column ${col}`);
       // Check if the move hits a ship
-      if (nextPlayer.gameboard.board[x][y] !== "miss") {
-        // console.log("Hit!");
+      checkHit(row, col);
+    }
 
-        // Check if all opponent's ships are sunk
-        if (nextPlayer.gameboard.sunkShips()) {
-          console.log(player1.gameboard.ships);
-          console.log(player2.gameboard.ships);
-          console.log(`${currentPlayer.player} wins!`);
-          // console.log(player1Moves);
-          // console.log(player2Moves);
-          gameOver = true;
-        }
-      } else {
-        // console.log("Miss!");
+    subscribe("cellClicked", handleCellClicked);
+
+    function player1Turn() {
+      if (!gameOver) {
       }
+    }
+
+    function player2Turn() {
+      if (!gameOver) {
+        const [x, y] = player2.cpuPlay();
+        checkHit(x, y);
+      }
+    }
+
+    function checkHit(row, col) {
+      const opponent = currentPlayer === player1 ? player2 : player1;
+
+      if (opponent.gameboard.receiveAttack(row, col)) {
+        updateCellStatus(row, col, "hit");
+      } else {
+        updateCellStatus(row, col, "miss");
+      }
+
+      if (opponent.gameboard.sunkShips()) {
+        if (currentPlayer === player1) {
+          p1Name.textContent = "Player 1 WINS";
+        } else {
+          p2Name.textContent = "Player 2 WINS";
+        }
+        console.log(`${currentPlayer.player} wins!`);
+        gameOver = true;
+        // setTimeout(() => {
+        //   clearGrids();
+        //   p1Name.textContent = "Player 1";
+        //   p2Name.textContent = "Player 2";
+        // }, 3000);
+      }
+
+      if (gameOver) {
+        console.log("Game over!");
+        setTimeout(() => {
+          clearGrids();
+          p1Name.textContent = "Player 1";
+          p2Name.textContent = "Player 2";
+          DOM();
+          play();
+        }, 1000);
+
+        return;
+      }
+
       switchTurn();
+    }
+
+    function clearGrids() {
+      playerGrid1.innerHTML = "";
+      playerGrid2.innerHTML = "";
+    }
+
+    function switchTurn() {
+      currentPlayer = currentPlayer === player1 ? player2 : player1;
+
+      if (currentPlayer === player1) {
+        player1Turn();
+      } else {
+        player2Turn();
+      }
+    }
+
+    function updateCellStatus(row, column, status) {
+      if (currentPlayer === player1) {
+        const cell = document.querySelector(
+          `.grid-cell2[data-row="${row}"][data-column="${column}"]`
+        );
+        cell.classList.add(status); // Add appropriate CSS class (e.g., "hit" or "miss")
+      } else {
+        const cell = document.querySelector(
+          `.grid-cell1[data-row="${row}"][data-column="${column}"]`
+        );
+        cell.classList.add(status); // Add appropriate CSS class (e.g., "hit" or "miss")
+      }
+
+      // Start the game with player1's turn
+      player1Turn();
     }
   }
   play();
 }
-
-gameloop();
